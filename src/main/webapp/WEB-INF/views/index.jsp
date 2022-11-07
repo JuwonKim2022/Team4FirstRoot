@@ -55,7 +55,7 @@
             <c:if test="${member == null}"><a class="nav-link active3" aria-current="page3" href="/member/login">로그인</a></c:if>
          </li>
           <li class="nav-item4">
-            <c:if test="${member == null}"><a class="nav-link active4" aria-current="page4" href="/signUp/signUp'/">회원가입</a></c:if>
+            <c:if test="${member == null}"><a class="nav-link active4" aria-current="page4" href="/signUp/signUp/">회원가입</a></c:if>
          </li>
         </ul>
         <form class="d-flex" role="search">
