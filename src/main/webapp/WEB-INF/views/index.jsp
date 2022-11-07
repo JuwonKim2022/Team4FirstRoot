@@ -44,12 +44,19 @@
               <li><a class="dropdown-item" href="#">북마크</a></li>
             </ul>
           </li>
-          <li class="nav-item3">
+          <!-- li class="nav-item3">
             <a class="nav-link active3" aria-current="page3" href="<c:url value='/member/login'/>">로그인</a>
           </li>
           <li class="nav-item4">
             <a class="nav-link active4" aria-current="page4" href="<c:url value='/signUp/signUp'/>">회원가입</a>
-          </li>
+          </li-->
+          <li class="nav-item3">
+            <c:if test="${member != null}"><a class="nav-link active3" aria-current="page3" href="/member/logout">로그아웃</a></c:if>
+            <c:if test="${member == null}"><a class="nav-link active3" aria-current="page3" href="/member/login">로그인</a></c:if>
+         </li>
+          <li class="nav-item4">
+            <c:if test="${member == null}"><a class="nav-link active4" aria-current="page4" href="/signUp/signUp'/">회원가입</a></c:if>
+         </li>
         </ul>
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
