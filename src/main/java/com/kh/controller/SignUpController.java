@@ -57,7 +57,7 @@ public class SignUpController {
 	      //sql 실행해서 데이터를 저장
 	      UserVO user = service.readSignUp(id);   
 	      //ajax에 리턴할 변수
-	      //id가 이미 있는지 if을 통하여 다른 결과값을 jsp로 리턴
+	      //id가 이미 있는지 if을 통하여 다른 결과값을 jsp로 리턴!
 	      String result;
 	      if (user == null) {
 	         l.info("userid null");
