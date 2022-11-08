@@ -14,7 +14,7 @@
   <script src="https://kit.fontawesome.com/e4a42c4ca5.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=178acc040ba10cc91f6038853c5e14b9"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fd83cebb54ee789e97f96b80202a3688"></script>
 ﻿
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
@@ -114,12 +114,10 @@ li {
   </nav>
 
 
-	<div class="mainContainer" style="width: 100%; height: 1000px; margin: 0 auto; display: flex;">
-		<div class="leftContainer"
-			style="width: 30%; height: 1000px; text-align: center; display: flex; flex-direction: column;">
-
-			<div class="left-top"
-				style="width: 100%; height: 10%; display: flex; justify-content: center; align-items: center;">
+	<div class="mainContainer"
+		style="width: 100%; height: 1000px; margin: 0 auto; display: flex;">
+		<div class="leftContainer" style="width: 30%; height: 1000px; text-align: center; display: flex; flex-direction: column;">
+			<div class="left-top" style="width: 100%; height: 10%; display: flex; justify-content: center; align-items: center;">
 				<ul>
 					<li>
 						<input type="text" id="district" name="district" size="25" placeholder="도로명 주소를 입력해주세요">
@@ -128,8 +126,7 @@ li {
 				</ul>
 			</div>
 
-			<div class="left-middle"
-				style="width: 100%; height: 50%; display: flex; justify-content: center; align-items: center;">
+			<div class="left-middle" style="width: 100%; height: 50%; display: flex; justify-content: center; align-items: center;">
 				<ul>
 					<li>
 						<div id="historyList"></div>
@@ -137,8 +134,7 @@ li {
 				</ul>
 			</div>
 
-			<div class=" left-bottom"
-				style="width: 100%; height: 40%; display: flex; justify-content: center; align-items: center;">
+			<div class=" left-bottom" style="width: 100%; height: 40%; display: flex; justify-content: center; align-items: center;">
 				<ul>
 					<li>
 						<div id="marketList"></div>
@@ -160,82 +156,120 @@ li {
 	</div>
 
 	<script>
-		$('.modalOpenBtn').click(function(){
-/* 			let bd_codename = $('input[name=district]').attr('value', area.name); */
+		//////////////////// 자세한 분석 정보  ////////////////////
+		$('.modalOpenBtn').click(function() {
+			$.ajax({
+				type : 'POST',
+				url : '/MarketMapPage/modal',
+				dataType : 'text',
+/* 				data : text_district, */
+				success : function (data) {
+					console.log("모달창 전송 성공");
+					$('#marketOfStores').html(data);
+					$('#marketOpenClose').html(data);
+				},
+				error : function (error) {
+					console.log("모달창 전송 실패");
+				}
+			});
+		});
+		//////////////////// 자세한 분석 정보  ////////////////////
 
-//검색박스가져와서 도로명주소 삽입하고 구로 변경해서 구로 불러오기
+		
+		$('.history').click(function() {
+			let bd_codename = $('input[name=district]').val();
 			
-			/* $.ajajx({
+			////////////////////////검색박스 일반 분석////////////////////////
+			let toHTMLMa = function(marketLists) {
+				let tmp = "<table border=1><tr><th>년도</th><th>분기</th><th>구</th><th>서비스 업종명</th><th>분기별 매출 금액</th><th>분기별 매출 건수</th><th>점포수</th></tr>";
+				marketLists.forEach(function(marketList) {
+					tmp += '<tr><td>' + marketList.marketyear + '</td>'
+					tmp += '<td>'+ marketList.marketquarter + '</td>'
+					tmp += '<td>' + marketList.codelistDTO.district + '</td>'
+					tmp += '<td>' + marketList.service_codename + '</td>'
+					tmp += '<td>' + marketList.marketquartersales + '</td>'
+					tmp += '<td>' + marketList.marketquartercount + '</td>'
+					tmp += '<td>' + marketList.marketofstores + '</td>'
+					tmp += '</tr>'
+				})
+				return tmp + "</table>";
+			}
+			
+			$.ajax({
+				type : 'POST',
+				url : '/MarketMapPage/map/search',
+				dataType : 'json',
+				data : { bd_codename : bd_codename },
+				success : function(data) {
+					console.log("분석 받아오기 성공");
+					var dataList = $(data).get();
+					$('#marketList').html(toHTMLMa(dataList));
+				},
+				error : function(error) {
+					console.log("분석 받아오기 실패");
+				}
+			});
+			////////////////////////검색박스 일반 분석////////////////////////
+			
+			
+			////////////////////검색 기록 삽입 및 불러오기///////////////////
+			let toHtmlHi = function(historyLists) {
+				let tmp = "<table border=1><tr><th>회원번호</th><th>년도</th><th>분기</th><th>구</th><th>길이름</th><th>검색일자</th></tr>";
+				
+				historyLists.forEach(function(historyList) {
+					tmp += '<tr><td>' + historyList.membernumber + '</td>'
+					tmp += '<td>' + historyList.marketyear + '</td>'
+					tmp += '<td>' + historyList.marketquarter + '</td>'
+					tmp += '<td>' + historyList.district + '</td>'
+					tmp += '<td>' + historyList.bd_codename + '</td>'
+					function formatDate(date) {
+						var d = new Date(date),
+						month = '' + (d.getMonth() + 1),
+						day = '' + d.getDate(),
+						year = d.getFullYear();
+
+						if (month.length < 2)
+							month = '0' + month;
+						if (day.length < 2)
+							day = '0' + day;
+						return [ year, month, day ].join('-');
+					}
+					tmp += '<td>' + formatDate(historyList.search_date) + '</td>'
+					tmp += '</tr>'
+				})
+				return tmp + "</table>";
+			}
+			
+			$.ajax({
 				type : 'POST',
 				url : '/MarketMapPage/history/SearchBoxInsertAndList',
 				dataType : 'json',
-				data : text_district,
-				success : function (data) {
-					console.log("검색박스 검색 기록 삽입 성공");
+				data : { bd_codename : bd_codename },
+				success : function(data) {
+					console.log("검색 박스 검색 기록 삽입 성공");
 					var dataList = $(data).get();
-					$('#historyList').html(toHtmlHi(dataList)); 
-					console.log("검색박스 검색 기록 불러오기 성공");
-				},
-				error : function (error) {
-					console.log("검색박스 검색 기록 삽입 실패");
-				}
-			}); */
-		});
-		
-		let toHtmlHi = function(historyLists) {
-		       let tmp = "<table border=1><tr><th>회원번호</th><th>년도</th><th>분기</th><th>구</th><th>길이름</th><th>검색일자</th></tr>";
-		
-		       historyLists.forEach(function(historyList){
-		           tmp += '<tr><td>'+ historyList.membernumber + '</td>'
-		           tmp += '<td>'+ historyList.marketyear + '</td>'
-		           tmp += '<td>'+ historyList.marketquarter + '</td>'
-		           tmp += '<td>'+ historyList.district + '</td>'
-		           tmp += '<td>'+ historyList.bd_codename + '</td>'
-		           
-		           function formatDate(date) {
-					var d = new Date(date),
-					month = '' + (d.getMonth() + 1),
-					day = '' + d.getDate(),
-					year = d.getFullYear();
-		       
-					if(month.length < 2) month = '0' + month;
-					if(day.length < 2) day = '0' + day;
-					
-					return [year, month, day].join('-');
-				}
-		           tmp += '<td>'+ formatDate(historyList.search_date) + '</td>'
-		           tmp += '</tr>'
-		       })
-		       return tmp+"</table>";
-		   }	
-	
-		$('.history').click(function(){
-			$.ajax({
-				type : 'POST',
-				url : '/MarketMapPage/history',
-				dataType : 'json',
-				async : false,
-				success : function (data) {
+					$('#historyList').html(toHtmlHi(dataList));
 					console.log("검색 박스 검색 기록 불러오기 성공");
-					var dataList = $(data).get();
-					$('#historyList').html(toHtmlHi(dataList)); 
 				},
-				error : function (error) {
-					console.log("검색 박스 검색 기록 불러오기 실패");
+				error : function(error) {
+					console.log("검색 박스 검색 기록 삽입 실패");
 				}
 			});
-		}); 
+		});
+		////////////////////검색 기록 삽입 및 불러오기///////////////////
 		
-		$('.modalOpenBtn').click(function(){
+		
+		$('.modalOpenBtn').click(function() {
 			$('.modalContainer').addClass('active');
 		});
-		
-		$('.modalCloseBtn').click(function(){
+
+		$('.modalCloseBtn').click(function() {
 			$('.modalContainer').removeClass('active');
 		});
 		
+		
 		///////////////////////////////////////////
-		var areas = [
+var areas = [
 			  {
 			    name: "도봉구",
 			    path: [
@@ -3867,23 +3901,21 @@ li {
 			      new kakao.maps.LatLng(37.554567831999975, 126.97787311599996),
 			      new kakao.maps.LatLng(37.55467309599999, 126.977722319),
 			      new kakao.maps.LatLng(37.55501144499999, 126.97727486600002),
-			    ],
-			  },
+			      ],
+			   },
 			];
 		//////////////////////////////
-		
+
 		var mapContainer = document.getElementById('rightContainer'), // 지도를 표시할 div
 		mapOption = {
 			center : new kakao.maps.LatLng(37.56444257505349, 127.00999440903283), // 지도의 중심좌표
-			level : 8
-		// 지도의 확대 레벨
+			level : 8 // 지도의 확대 레벨
 		};
-		
-		var map = new kakao.maps.Map(mapContainer, mapOption), customOverlay = new kakao.maps.CustomOverlay(
-				{}), infowindow = new kakao.maps.InfoWindow({
+
+		var map = new kakao.maps.Map(mapContainer, mapOption), customOverlay = new kakao.maps.CustomOverlay({}), infowindow = new kakao.maps.InfoWindow({
 			removable : true
 		});
-		
+
 		map.setDraggable(false);
 		map.setZoomable(false);
 
@@ -3894,14 +3926,7 @@ li {
 
 		// 다각형을 생상하고 이벤트를 등록하는 함수입니다
 		function displayArea(area) {
-			
-			const text_district = document.getElementById('district');
-			let district = area.name;
-			
-			const addToList = (areaDtos) => {
-				text_district.innerHTML = areaDtos.district;
-			};
-			
+
 			// 다각형을 생성합니다
 			var polygon = new kakao.maps.Polygon({
 				map : map, // 다각형을 표시할 지도 객체
@@ -3915,22 +3940,18 @@ li {
 
 			// 다각형에 mouseover 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 변경합니다
 			// 지역명을 표시하는 커스텀오버레이를 지도위에 표시합니다
-			kakao.maps.event.addListener(polygon, 'mouseover', function(
-					mouseEvent) {
+			kakao.maps.event.addListener(polygon, 'mouseover', function(mouseEvent) {
 				polygon.setOptions({
 					fillColor : '#09f' // 다각형 색깔
 				});
 
-				/* 				customOverlay.setContent('<div class="area">' + area.name + '</div>'); */
-
+				/* customOverlay.setContent('<div class="area">' + area.name + '</div>'); */
 				customOverlay.setPosition(mouseEvent.latLng);
 				customOverlay.setMap(map);
 			});
 
 			// 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 커스텀 오버레이의 위치를 변경합니다
-			kakao.maps.event.addListener(polygon, 'mousemove', function(
-					mouseEvent) {
-
+			kakao.maps.event.addListener(polygon, 'mousemove', function(mouseEvent) {
 				customOverlay.setPosition(mouseEvent.latLng);
 			});
 
@@ -3943,91 +3964,86 @@ li {
 				customOverlay.setMap(null);
 			});
 
-						
 			// 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다
 			kakao.maps.event.addListener(polygon, 'click', function(mouseEvent) {
-						
 				let text_district = $('input[name=district]').attr('value', area.name);
+				////////////////////////분석//////////////////////
+				let toHTMLMa = function(marketLists) {
+					let tmp = "<table border=1><tr><th>년도</th><th>분기</th><th>구</th><th>서비스 업종명</th><th>분기별 매출 금액</th><th>분기별 매출 건수</th><th>점포수</th></tr>";
+					marketLists.forEach(function(marketList) {
+						tmp += '<tr><td>' + marketList.marketyear + '</td>'
+						tmp += '<td>'+ marketList.marketquarter + '</td>'
+						tmp += '<td>' + marketList.codelistDTO.district + '</td>'
+						tmp += '<td>' + marketList.service_codename + '</td>'
+						tmp += '<td>' + marketList.marketquartersales + '</td>'
+						tmp += '<td>' + marketList.marketquartercount + '</td>'
+						tmp += '<td>' + marketList.marketofstores + '</td>'
+						tmp += '</tr>'
+					})
+					return tmp + "</table>";
+				}
+				
+				$.ajax({
+					type : 'POST',
+					url : '/MarketMapPage/map/analysis',
+					dataType : 'json',
+					data : text_district,
+					success : function(data) {
+						console.log("분석 받아오기 성공");
+						var dataList = $(data).get();
+						$('#marketList').html(toHTMLMa(dataList));
+					},
+					error : function(error) {
+						console.log("분석 받아오기 실패");
+					}
+				});
+				////////////////////////분석//////////////////////
+				
+				////////////////////검색 기록 삽입 및 불러오기///////////////////
+				let toHtmlHi = function(historyLists) {
+					let tmp = "<table border=1><tr><th>회원번호</th><th>년도</th><th>분기</th><th>구</th><th>길이름</th><th>검색일자</th></tr>";
+					historyLists.forEach(function(historyList) {
+						tmp += '<tr><td>' + historyList.membernumber + '</td>'
+						tmp += '<td>' + historyList.marketyear + '</td>'
+						tmp += '<td>' + historyList.marketquarter + '</td>'
+						tmp += '<td>' + historyList.district + '</td>'
+						tmp += '<td>' + historyList.bd_codename + '</td>'
+						function formatDate(date) {
+							var d = new Date(date),
+							month = '' + (d.getMonth() + 1),
+							day = '' + d.getDate(),
+							year = d.getFullYear();
 							
-							////////////////////////분석//////////////////////
-							let toHTMLMa = function(marketLists) {
-						        let tmp = "<table border=1><tr><th>년도</th><th>분기</th><th>구</th><th>서비스 업종명</th><th>분기별 매출 금액</th><th>분기별 매출 건수</th><th>점포수</th></tr>";
-
-						        marketLists.forEach(function(marketList){
-						            tmp += '<tr><td>'+ marketList.marketyear + '</td>'
-						            tmp += '<td>'+ marketList.marketquarter + '</td>'
-						            tmp += '<td>'+ marketList.codelistDTO.district + '</td>'
-						            tmp += '<td>'+ marketList.service_codename + '</td>'
-						            tmp += '<td>'+ marketList.marketquartersales + '</td>'
-						            tmp += '<td>'+ marketList.marketquartercount + '</td>'
-						            tmp += '<td>'+ marketList.marketofstores + '</td>'
-						            tmp += '</tr>'
-						        })
-						        return tmp+"</table>";
-						    }
-							$.ajax({
-								type : 'POST',
-								url : '/MarketMapPage/map/analysis',
-								dataType : 'json',
-								data : text_district,
-								success : function (data) {
-									console.log("분석 받아오기 성공");
-									var dataList = $(data).get();
-									$('#marketList').html(toHTMLMa(dataList));
-								},
-								error : function (error) {
-									console.log("분석 받아오기 실패");
-								}
-							}); 
-							////////////////////////분석//////////////////////
-							
-							
-							////////////////////검색 기록 삽입 및 불러오기///////////////////
-							let toHtmlHi = function(historyLists) {
-							       let tmp = "<table border=1><tr><th>회원번호</th><th>년도</th><th>분기</th><th>구</th><th>길이름</th><th>검색일자</th></tr>";
-							
-							       historyLists.forEach(function(historyList){
-							           tmp += '<tr><td>'+ historyList.membernumber + '</td>'
-							           tmp += '<td>'+ historyList.marketyear + '</td>'
-							           tmp += '<td>'+ historyList.marketquarter + '</td>'
-							           tmp += '<td>'+ historyList.district + '</td>'
-							           tmp += '<td>'+ historyList.bd_codename + '</td>'
-							           
-							           function formatDate(date) {
-										var d = new Date(date),
-										month = '' + (d.getMonth() + 1),
-										day = '' + d.getDate(),
-										year = d.getFullYear();
-							       
-										if(month.length < 2) month = '0' + month;
-										if(day.length < 2) day = '0' + day;
-										
-										return [year, month, day].join('-');
-									}
-							           tmp += '<td>'+ formatDate(historyList.search_date) + '</td>'
-							           tmp += '</tr>'
-							       })
-							       return tmp+"</table>";
-							   }	
-						
-							$.ajax({
-								type : 'POST',
-								url : '/MarketMapPage/history/PolygonInsertAndList',
-								dataType : 'json',
-								data : text_district,
-								success : function (data) {
-									console.log("다각형 검색 기록 삽입 성공");
-									var dataList = $(data).get();
-									$('#historyList').html(toHtmlHi(dataList)); 
-									console.log("다각형 검색 기록 불러오기 성공");
-								},
-								error : function (error) {
-									console.log("다각형 검색 기록 삽입 실패");
-								}
-							});
-							////////////////////검색 기록 삽입 및 불러오기///////////////////
-					});
-}
+							if (month.length < 2)
+								month = '0' + month;
+							if (day.length < 2)
+								day = '0' + day;
+							return [ year, month, day ].join('-');
+						}
+						tmp += '<td>' + formatDate(historyList.search_date) + '</td>'
+						tmp += '</tr>'
+					})
+					return tmp + "</table>";
+				}
+				
+				$.ajax({
+					type : 'POST',
+					url : '/MarketMapPage/history/PolygonInsertAndList',
+					dataType : 'json',
+					data : text_district,
+					success : function(data) {
+						console.log("다각형 검색 기록 삽입 성공");
+						var dataList = $(data).get();
+						$('#historyList').html(toHtmlHi(dataList));
+						console.log("다각형 검색 기록 불러오기 성공");
+					},
+					error : function(error) {
+						console.log("다각형 검색 기록 삽입 실패");
+					}
+				});
+				////////////////////검색 기록 삽입 및 불러오기///////////////////
+			});
+		}
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>

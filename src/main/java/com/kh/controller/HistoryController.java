@@ -18,8 +18,6 @@ import com.kh.vo.HistoryDTO;
 
 @Controller
 public class HistoryController {
-	/* private String searchDistrict = ""; */
-	
 	@Resource(name = "historyService")
 	private HistoryService historyService;
 
@@ -30,29 +28,31 @@ public class HistoryController {
 		return "history";
 	}
 
-	// 검색박스 검색 기록 삽입 및 불러오기 미작동
-//	@ResponseBody
-//	@RequestMapping(value = "/MarketMapPage/history/SearchBoxInsertAndList", method = RequestMethod.POST)
-//	public List<HistoryDTO> historySearchBoxInsertAndList(Model model, @ModelAttribute HistoryDTO historyDTO) throws Exception {
-//		int membernumber = 2;
-//
-//		historyDTO.setSearch_date(Timestamp.valueOf(LocalDateTime.now()));
-//		historyDTO.setMembernumber(membernumber);
-//		historyService.insert(historyDTO); 										
-//		List<HistoryDTO> historyList = historyService.selectRecentHistory(membernumber);
-//		model.addAttribute("historyList", historyList);
-//		System.out.println(historyList);
-//		return historyList;
-//	}
+	@ResponseBody
+	@RequestMapping(value = "/MarketMapPage/history/SearchBoxInsertAndList", method = RequestMethod.POST)
+	public List<HistoryDTO> historySearchBoxInsertAndList(Model model, @ModelAttribute HistoryDTO historyDTO) throws Exception {
+		int membernumber = 2;
+		historyDTO.setMembernumber(membernumber);
+		
+		historyDTO.setSearch_date(Timestamp.valueOf(LocalDateTime.now()));
+		historyService.insertSearchBox(historyDTO);
+
+		List<HistoryDTO> historyList = historyService.selectRecentHistory(membernumber);
+		model.addAttribute("historyList", historyList);
+		System.out.println(historyList);
+		return historyList;
+	}
 
 	// 다각형 검색 기록 삽입 및 불러오기 작동
 	@ResponseBody
 	@RequestMapping(value = "/MarketMapPage/history/PolygonInsertAndList", method = RequestMethod.POST)
 	public List<HistoryDTO> historyPolygonInsertAndList(Model model, @ModelAttribute HistoryDTO historyDTO) throws Exception {
 		int membernumber = 1;
-		historyDTO.setSearch_date(Timestamp.valueOf(LocalDateTime.now()));
 		historyDTO.setMembernumber(membernumber);
-		historyService.insert(historyDTO); 										
+		
+		historyDTO.setSearch_date(Timestamp.valueOf(LocalDateTime.now()));
+		historyService.insertPolygon(historyDTO);
+
 		List<HistoryDTO> historyList = historyService.selectRecentHistory(membernumber);
 		model.addAttribute("historyList", historyList);
 		System.out.println(historyList);

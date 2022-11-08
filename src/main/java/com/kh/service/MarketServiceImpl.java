@@ -1,5 +1,4 @@
 package com.kh.service;
-
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -25,7 +24,17 @@ public class MarketServiceImpl implements MarketService {
 	}
 
 	@Override
+	public String returnDistrict(String bd_codename) throws Exception {
+		return marketDAO.returnDistrict(bd_codename);
+	}
+	
+	@Override
 	public List<MarketDTO> selectDataByDYQ(String district) throws Exception {
 		return marketDAO.selectDataByDYQ(district);
+	}
+	
+	@Override
+	public List<MarketDTO> selectRData(String district) throws Exception {
+		return marketDAO.selectRData(district);
 	}
 }

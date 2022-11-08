@@ -1,5 +1,8 @@
 package com.kh.vo;
 
+import lombok.Data;
+
+@Data
 public class CodelistDTO {
 	private int bd_code;
 	private String district;
@@ -27,7 +30,5 @@ public class CodelistDTO {
 	public void setDistrict(String district) {
 		this.district = district;
 	}
-	
-	
 
 }

@@ -12,7 +12,7 @@ import com.kh.vo.HistoryDTO;
 public class HistoryDAOImpl implements HistoryDAO {
 	@Autowired
 	private SqlSession sqlSession;
-	private String NameSpace = "net.market.mapper.HistoryMapper";
+	private String NameSpace = "HistoryMapper";
 
 	@Override
 	public List<HistoryDTO> selectAll() throws Exception {
@@ -25,7 +25,12 @@ public class HistoryDAOImpl implements HistoryDAO {
 	}
 	
 	@Override
-	public int insert(HistoryDTO historyDTO) throws Exception {
+	public int insertSearchBox(HistoryDTO historyDTO) throws Exception {
+		return sqlSession.insert(NameSpace + ".insertSearchBoxSearchData", historyDTO);
+	}
+	
+	@Override
+	public int insertPolygon(HistoryDTO historyDTO) throws Exception {
 		return sqlSession.insert(NameSpace + ".insertPolygonSearchData", historyDTO);
 	}
 }

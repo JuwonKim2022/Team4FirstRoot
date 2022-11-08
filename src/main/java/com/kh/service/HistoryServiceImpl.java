@@ -25,8 +25,13 @@ public class HistoryServiceImpl implements HistoryService {
 	}
 	
 	@Override
-	public int insert(HistoryDTO historyDTO) throws Exception {
-		return historyDAO.insert(historyDTO);
+	public int insertSearchBox(HistoryDTO historyDTO) throws Exception {
+		return historyDAO.insertSearchBox(historyDTO);
+	}
+	
+	@Override
+	public int insertPolygon(HistoryDTO historyDTO) throws Exception {
+		return historyDAO.insertPolygon(historyDTO);
 	}
 
 }

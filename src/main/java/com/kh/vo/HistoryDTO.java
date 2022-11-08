@@ -2,6 +2,9 @@ package com.kh.vo;
 
 import java.sql.Timestamp;
 
+import lombok.Data;
+
+@Data
 public class HistoryDTO {
 	private int membernumber;
 	private int marketyear;
@@ -9,7 +12,7 @@ public class HistoryDTO {
 	private String bd_codename;
 	private String district;
 	private Timestamp search_date;
-	
+
 	public HistoryDTO() {
 	}
 
@@ -70,6 +73,5 @@ public class HistoryDTO {
 	public void setSearch_date(Timestamp search_date) {
 		this.search_date = search_date;
 	}
-	
-	
+
 }

@@ -1,5 +1,8 @@
 package com.kh.vo;
 
+import lombok.Data;
+
+@Data
 public class MarketDTO {
 	private int marketyear;
 	private int marketquarter;
@@ -9,14 +12,14 @@ public class MarketDTO {
 	private String service_codename;
 	private long marketquartersales;
 	private int marketquartercount;
-	private int marketofstores;
+	private double marketofstores;
 	private CodelistDTO codelistDTO;
 	
 	public MarketDTO() {
 	}
 
 	public MarketDTO(int marketyear, int marketquarter, int bd_code, String bd_codename, String service_code,
-			String service_codename, long marketquartersales, int marketquartercount, int marketofstores,
+			String service_codename, long marketquartersales, int marketquartercount, double marketofstores,
 			CodelistDTO codelistDTO) {
 		this.marketyear = marketyear;
 		this.marketquarter = marketquarter;
@@ -94,11 +97,11 @@ public class MarketDTO {
 		this.marketquartercount = marketquartercount;
 	}
 
-	public int getMarketofstores() {
+	public double getMarketofstores() {
 		return marketofstores;
 	}
 
-	public void setMarketofstores(int marketofstores) {
+	public void setMarketofstores(double marketofstores) {
 		this.marketofstores = marketofstores;
 	}
 

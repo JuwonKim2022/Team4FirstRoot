@@ -10,5 +10,7 @@ public interface HistoryDAO {
 
 	public List<HistoryDTO> selectRecentHistory(int membernumber) throws Exception;
 
-	public int insert(HistoryDTO historyDTO) throws Exception;
+	int insertPolygon(HistoryDTO historyDTO) throws Exception;
+
+	int insertSearchBox(HistoryDTO historyDTO) throws Exception;
 }
