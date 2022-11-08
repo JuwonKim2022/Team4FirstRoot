@@ -9,7 +9,7 @@
 	  <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 	</head>
 	<body>
-	  <nav class="navbar navbar-expand-lg bg-light">
+  <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="<c:url value='/'/>">
         <i class="fa-brands fa-freebsd"> market A</i>
@@ -20,22 +20,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
           <li class="nav-item1">
-            <a class="nav-link active1" aria-current="page1" href="https://map.kakao.com/">상권 지도</a>
+            <a class="nav-link active1" aria-current="page1" href="<c:url value='/MarketMapPage'/>">상권지도</a>
+          </li>
+          <li class="nav-item2">
+            <a class="nav-link active2" aria-current="page2" href="<c:url value='/board/list'/>">자유게시판</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              커뮤니티
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">공지사항</a></li>
-              <li><a class="dropdown-item" href="#">묻고 답하기</a></li>
-              <li><a class="dropdown-item" href="<c:url value='/board/list'/>">자유 게시판</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              나의 공간
-            </a>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">내 공간</a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#">내 정보</a></li>
               <li><hr class="dropdown-divider"></li>
@@ -43,22 +34,19 @@
               <li><a class="dropdown-item" href="#">북마크</a></li>
             </ul>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              사이트 소개
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">사이트 소개</a></li>
-              <li><a class="dropdown-item" href="#">참고 사이트</a></li>
-              <li><a class="dropdown-item" href="#">사이트맵</a></li>
-            </ul>
-          </li>
-          <li class="nav-item3">
-            <a class="nav-link active3" aria-current="page3" href="<c:url value='/signUp/login'/>">로그인</a>
+          <!-- li class="nav-item3">
+            <a class="nav-link active3" aria-current="page3" href="<c:url value='/member/login'/>">로그인</a>
           </li>
           <li class="nav-item4">
             <a class="nav-link active4" aria-current="page4" href="<c:url value='/signUp/signUp'/>">회원가입</a>
-          </li>
+          </li-->
+          <li class="nav-item3">
+            <c:if test="${member != null}"><a class="nav-link active3" aria-current="page3" href="/member/logout">로그아웃</a></c:if>
+            <c:if test="${member == null}"><a class="nav-link active3" aria-current="page3" href="/member/login">로그인</a></c:if>
+         </li>
+          <li class="nav-item4">
+            <c:if test="${member == null}"><a class="nav-link active4" aria-current="page4" href="/signUp/signUp/">회원가입</a></c:if>
+         </li>
         </ul>
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

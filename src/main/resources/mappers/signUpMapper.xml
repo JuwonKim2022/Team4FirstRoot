@@ -18,11 +18,11 @@
 
    <!-- 아이디 추가 -->
    <insert id="insertSignUp" parameterType="com.kh.vo.UserVO">
-      insert into
-      SIGNUP(SIGNNUMBER, ID, NAME,EMAIL,REGDATA,ADMINCHECK)
-      values
-      (MEMBERNUM_SEQ.nextval,#{id},#{name},#{email},sysdate,1)
-   </insert>
+  	insert into
+		SIGNUP(SIGNNUMBER, ID, NAME,PW,EMAIL,REGDATA,ADMINCHECK)
+		values
+		(MEMBERNUM_SEQ.nextval,#{id},#{name},#{pw},#{email},sysdate,1)
+  </insert>
 
 	<select id="readSignUpWithIDPW" resultType="com.kh.vo.UserVO">
 		select *

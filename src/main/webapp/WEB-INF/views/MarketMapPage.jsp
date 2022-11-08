@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -15,8 +14,7 @@
   <script src="https://kit.fontawesome.com/e4a42c4ca5.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=178acc040ba10cc91f6038853c5e14b9"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=178acc040ba10cc91f6038853c5e14b9"></script>
 ﻿
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
@@ -33,10 +31,6 @@ a {
 	color: black;
 }
 
-/* button, input {
-	border: none;
-	outline: none;
-} */
 
 div {
 	border: 1px solid black;
@@ -46,7 +40,6 @@ ul {
 	float: left;
 	text-align: center;
 }
-
 li {
 	display: inline-block;
 	text-align: center;
@@ -73,7 +66,7 @@ li {
 
 <body>
 
-<nav class="navbar navbar-expand-lg bg-light">
+  <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="<c:url value='/'/>">
         <i class="fa-brands fa-freebsd"> market A</i>
@@ -86,13 +79,8 @@ li {
           <li class="nav-item1">
             <a class="nav-link active1" aria-current="page1" href="<c:url value='/MarketMapPage'/>">상권지도</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">커뮤니티</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">공지사항</a></li>
-              <li><a class="dropdown-item" href="#">묻고 답하기</a></li>
-              <li><a class="dropdown-item" href="<c:url value='/board/list'/>">자유 게시판</a></li>
-            </ul>
+          <li class="nav-item2">
+            <a class="nav-link active2" aria-current="page2" href="<c:url value='/board/list'/>">자유게시판</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">내 공간</a>
@@ -103,12 +91,19 @@ li {
               <li><a class="dropdown-item" href="#">북마크</a></li>
             </ul>
           </li>
-          <li class="nav-item3">
+          <!-- li class="nav-item3">
             <a class="nav-link active3" aria-current="page3" href="<c:url value='/member/login'/>">로그인</a>
           </li>
           <li class="nav-item4">
             <a class="nav-link active4" aria-current="page4" href="<c:url value='/signUp/signUp'/>">회원가입</a>
-          </li>
+          </li-->
+          <li class="nav-item3">
+            <c:if test="${member != null}"><a class="nav-link active3" aria-current="page3" href="/member/logout">로그아웃</a></c:if>
+            <c:if test="${member == null}"><a class="nav-link active3" aria-current="page3" href="/member/login">로그인</a></c:if>
+         </li>
+          <li class="nav-item4">
+            <c:if test="${member == null}"><a class="nav-link active4" aria-current="page4" href="/signUp/signUp/">회원가입</a></c:if>
+         </li>
         </ul>
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
