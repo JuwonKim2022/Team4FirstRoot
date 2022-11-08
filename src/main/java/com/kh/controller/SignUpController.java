@@ -26,24 +26,22 @@ public class SignUpController {
 	
 	@PostMapping("/signUp/join")
     public String insertIdPostd(UserVO userVO,HttpServletRequest req,RedirectAttributes rtt) throws SQLException {
-		System.out.println("insertIdPostd");
-        l.info("jsp에 입력한 가입정보");
-           l.info("id-"+userVO.getId());
-           l.info("name-"+userVO.getEmail());
-           l.info("email-"+userVO.getName());         
-//          l.info("회원가입 컨트롤 메소드 실행");
-//         String name=req.getParameter("name");
-//         String id=req.getParameter("id");
-//         String email=req.getParameter("email");      
-         /*l.info("jsp에 입력한 가입정보");
-           l.info("id-"+id);
-           l.info("name-"+name);
-           l.info("email-"+email);      
-*/
-            
-             service.insertSignUp(userVO);
-             
-         return "index";
+
+		
+		String  pw = req.getParameter("pw");
+		String  EncoderPw= "";
+		EncoderPw = Encoder.encode(pw);
+		userVO.setPw(EncoderPw);
+			if(Encoder.matches(pw, EncoderPw)){
+			 service.insertSignUp(userVO); 
+				l.info("유저등록 완료");
+		}else {
+					
+			l.info("유저등록 실패");
+			
+		}
+			return "index";
+	
       }
 	
 	   // AJAX 아이디 체크
