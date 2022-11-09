@@ -14,7 +14,7 @@
   <script src="https://kit.fontawesome.com/e4a42c4ca5.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fd83cebb54ee789e97f96b80202a3688"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=178acc040ba10cc91f6038853c5e14b9"></script>
 ﻿
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
@@ -28,15 +28,11 @@
 
 a {
 	text-decoration: none;
-	color: black;
-}
-
-
-div {
-	border: 1px solid black;
+	color: orange;
 }
 
 ul {
+	padding: 0;
 	float: left;
 	text-align: center;
 }
@@ -47,8 +43,7 @@ li {
 
 .modalContainer {
 	background-color: yellow;
-	width: 70%;
-	height: 1000px;
+	width: 100%; height: 1000px;
 	opacity: 0;
 	position: fixed;
 	transition: 0.5s;
@@ -65,210 +60,234 @@ li {
 </head>
 
 <body>
-
+	<!-- 네비게이션 -->
   <nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
+   	<div class="container-fluid">
       <a class="navbar-brand" href="<c:url value='/'/>">
-        <i class="fa-brands fa-freebsd"> market A</i>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
+       	<i class="fa-brands fa-freebsd"> market A</i>
+     	</a>
+     	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+       	<span class="navbar-toggler-icon"></span>
+     	</button>
+     	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+       	<ul class="navbar-nav me-auto mb-2 mb-lg-0" >
           <li class="nav-item1">
-            <a class="nav-link active1" aria-current="page1" href="<c:url value='/MarketMapPage'/>">상권지도</a>
-          </li>
-          <li class="nav-item2">
-            <a class="nav-link active2" aria-current="page2" href="<c:url value='/board/list'/>">자유게시판</a>
-          </li>
+           	<a class="nav-link active1" aria-current="page1" href="<c:url value='/MarketMapPage'/>">상권지도</a>
+         	</li>
+         	<li class="nav-item2">
+           	<a class="nav-link active2" aria-current="page2" href="<c:url value='/board/list'/>">자유게시판</a>
+          	</li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">내 공간</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">내 정보</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">내 기록</a></li>
-              <li><a class="dropdown-item" href="#">북마크</a></li>
-            </ul>
-          </li>
-          <!-- li class="nav-item3">
-            <a class="nav-link active3" aria-current="page3" href="<c:url value='/member/login'/>">로그인</a>
-          </li>
-          <li class="nav-item4">
-            <a class="nav-link active4" aria-current="page4" href="<c:url value='/signUp/signUp'/>">회원가입</a>
-          </li-->
-          <li class="nav-item3">
-            <c:if test="${member != null}"><a class="nav-link active3" aria-current="page3" href="/member/logout">로그아웃</a></c:if>
-            <c:if test="${member == null}"><a class="nav-link active3" aria-current="page3" href="/member/login">로그인</a></c:if>
-         </li>
-          <li class="nav-item4">
-            <c:if test="${member == null}"><a class="nav-link active4" aria-current="page4" href="/signUp/signUp/">회원가입</a></c:if>
-         </li>
-        </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-secondary" type="submit">Search</button>
-        </form>
+           	<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">내 공간</a>
+           	<ul class="dropdown-menu">
+             	<li><a class="dropdown-item" href="#">내 정보</a></li>
+             	<li><hr class="dropdown-divider"></li>
+             	<li><a class="dropdown-item" href="#">내 기록</a></li>
+             	<li><a class="dropdown-item" href="#">북마크</a></li>
+           	</ul>
+         	</li>
+         	<li class="nav-item3">
+           	<c:if test="${member != null}"><a class="nav-link active3" aria-current="page3" href="/member/logout">로그아웃</a></c:if>
+           	<c:if test="${member == null}"><a class="nav-link active3" aria-current="page3" href="/member/login">로그인</a></c:if>
+        		</li>
+         	<li class="nav-item4">
+           	<c:if test="${member == null}"><a class="nav-link active4" aria-current="page4" href="/signUp/signUp/">회원가입</a></c:if>
+       		</li>
+       	</ul>
+       	<form class="d-flex" role="search">
+         	<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+         	<button class="btn btn-secondary" type="submit">Search</button>
+       	</form>
       </div>
     </div>
   </nav>
-
-
-	<div class="mainContainer"
-		style="width: 100%; height: 1000px; margin: 0 auto; display: flex;">
-		<div class="leftContainer" style="width: 30%; height: 1000px; text-align: center; display: flex; flex-direction: column;">
-			<div class="left-top" style="width: 100%; height: 10%; display: flex; justify-content: center; align-items: center;">
-				<ul>
-					<li>
-						<input type="text" id="district" name="district" size="25" placeholder="도로명 주소를 입력해주세요">
-						<button type="submit" class="history">검색</button>
-					</li>
-				</ul>
-			</div>
-
-			<div class="left-middle" style="width: 100%; height: 50%; display: flex; justify-content: center; align-items: center;">
+	<!-- 전체박스 -->
+	<div class="mainContainer shadow p-3 mb-5 bg-body rounded" style="width: 100%; height: 100%; margin: 0; padding: 0; display: flex;">
+	<!-- 왼쪽박스전체 -->
+		<div class="leftContaine container" style="width: 420px; height: 1000px; text-align: center; display: flex; flex-direction: column;">
+	
+			<!--왼쪽위 -->
+			<form>
+  			<div class="mb-3">
+    			<label for="inputAddress" class="form-label fw-bold">주소 검색</label>
+    			<input type="text" class="form-control" id="district"placeholder="도로명 주소를 입력해주세요">
+  			</div>
+  			<div class="mb-3 row g-4">
+  				<div class="col-6">
+  					<label for="inputYear" class="fw-bold">연도</label>
+      			<select class="form-select form-control-sm" aria-label="Default select year">
+  						<option value="2021" selected>2021</option>
+							<option value="2020">2020</option>
+							<option value="2020">2019</option>
+							<option value="2020">2018</option>
+							<option value="2020">2017</option>
+							<option value="2020">2016</option>
+							<option value="2020">2015</option>
+							<option value="2020">2014</option>
+						</select>	
+    			</div>
+  				<div class="col-6">
+  					<label for="inputQuarter" class="fw-bold">분기</label>
+  					<select class="form-select form-control-sm" aria-label="Default select qyarter">
+  						<option value="1" selected>1분기</option>
+  						<option value="2">2분기</option>
+  						<option value="3">3분기</option>
+  						<option value="4">4분기</option>
+						</select>
+  				</div>
+				</div>
+  			<button type="reset" class="reset btn btn-secondary">리 셋</button>
+				<button type="submit" class="history btn btn-dark">검 색</button>
+			</form>
+			
+			<!-- 왼쪽중간 -->
+			<div class="left-middle" style="width: 100%; height: 45%; display: flex; justify-content: center; align-items: center;">
 				<ul>
 					<li>
 						<div id="historyList"></div>
 					</li>
 				</ul>
 			</div>
-
+			
+			<!-- 왼쪽 아래 -->
 			<div class=" left-bottom" style="width: 100%; height: 40%; display: flex; justify-content: center; align-items: center;">
 				<ul>
 					<li>
 						<div id="marketList"></div>
 					</li>
 					<li>
-						<button class="modalOpenBtn">자세한 분석 정보</button>
+						<button class="modalOpenBtn btn btn-dark">자세한 분석 정보</button>
 					</li>
 				</ul>
 			</div>
 		</div>
-		<div class="rightContainer" id="rightContainer"
-			style="width: 70%; height: 1000px; border: 1px solid">
-			<div class="modalContainer">
-				<div id="marketOfStores"></div>
-				<div id="marketOpenClose"></div>
-				<button class="modalCloseBtn">&times;</button>
-			</div>
+	
+	<!-- 지도 -->
+	<div class="rightContainer" id="rightContainer" style="width: 100%; height: 1000px;">
+		<div class="modalContainer">
+			<div id="marketOfStores"></div>
+			<div id="marketOpenClose"></div>
+			<button class="modalCloseBtn">&times;</button>
 		</div>
 	</div>
+</div>
 
-	<script>
-		//////////////////// 자세한 분석 정보  ////////////////////
-		$('.modalOpenBtn').click(function() {
-			$.ajax({
-				type : 'POST',
-				url : '/MarketMapPage/modal',
-				dataType : 'text',
+
+
+<script>
+//////////////////// 자세한 분석 정보  ////////////////////
+	$('.modalOpenBtn').click(function() {
+		$.ajax({
+			type : 'POST',
+			url : '/MarketMapPage/modal',
+			dataType : 'text',
 /* 				data : text_district, */
-				success : function (data) {
-					console.log("모달창 전송 성공");
-					$('#marketOfStores').html(data);
-					$('#marketOpenClose').html(data);
-				},
-				error : function (error) {
-					console.log("모달창 전송 실패");
-				}
-			});
+			success : function (data) {
+				console.log("모달창 전송 성공");
+				$('#marketOfStores').html(data);
+				$('#marketOpenClose').html(data);
+			},
+			error : function (error) {
+				console.log("모달창 전송 실패");
+			}
 		});
-		//////////////////// 자세한 분석 정보  ////////////////////
+	});
+//////////////////// 자세한 분석 정보  ////////////////////
 
 		
-		$('.history').click(function() {
-			let bd_codename = $('input[name=district]').val();
+	$('.history').click(function() {
+		let bd_codename = $('input[name=district]').val();
 			
-			////////////////////////검색박스 일반 분석////////////////////////
-			let toHTMLMa = function(marketLists) {
-				let tmp = "<table border=1><tr><th>년도</th><th>분기</th><th>구</th><th>서비스 업종명</th><th>분기별 매출 금액</th><th>분기별 매출 건수</th><th>점포수</th></tr>";
-				marketLists.forEach(function(marketList) {
-					tmp += '<tr><td>' + marketList.marketyear + '</td>'
-					tmp += '<td>'+ marketList.marketquarter + '</td>'
-					tmp += '<td>' + marketList.codelistDTO.district + '</td>'
-					tmp += '<td>' + marketList.service_codename + '</td>'
-					tmp += '<td>' + marketList.marketquartersales + '</td>'
-					tmp += '<td>' + marketList.marketquartercount + '</td>'
-					tmp += '<td>' + marketList.marketofstores + '</td>'
-					tmp += '</tr>'
-				})
-				return tmp + "</table>";
+////////////////////////검색박스 일반 분석////////////////////////
+		let toHTMLMa = function(marketLists) {
+			let tmp = "<table border=1><tr><th>년도</th><th>분기</th><th>구</th><th>서비스 업종명</th><th>분기별 매출 금액</th><th>분기별 매출 건수</th><th>점포수</th></tr>";
+			marketLists.forEach(function(marketList) {
+				tmp += '<tr><td>' + marketList.marketyear + '</td>'
+				tmp += '<td>'+ marketList.marketquarter + '</td>'
+				tmp += '<td>' + marketList.codelistDTO.district + '</td>'
+				tmp += '<td>' + marketList.service_codename + '</td>'
+				tmp += '<td>' + marketList.marketquartersales + '</td>'
+				tmp += '<td>' + marketList.marketquartercount + '</td>'
+				tmp += '<td>' + marketList.marketofstores + '</td>'
+				tmp += '</tr>'
+			})
+			return tmp + "</table>";
+		}
+			
+		$.ajax({
+			type : 'POST',
+			url : '/MarketMapPage/map/search',
+			dataType : 'json',
+			data : { bd_codename : bd_codename },		
+			success : function(data) {
+				console.log("분석 받아오기 성공");
+				var dataList = $(data).get();
+				$('#marketList').html(toHTMLMa(dataList));
+			},
+			error : function(error) {
+				console.log("분석 받아오기 실패");
 			}
-			
-			$.ajax({
-				type : 'POST',
-				url : '/MarketMapPage/map/search',
-				dataType : 'json',
-				data : { bd_codename : bd_codename },
-				success : function(data) {
-					console.log("분석 받아오기 성공");
-					var dataList = $(data).get();
-					$('#marketList').html(toHTMLMa(dataList));
-				},
-				error : function(error) {
-					console.log("분석 받아오기 실패");
-				}
-			});
-			////////////////////////검색박스 일반 분석////////////////////////
+		});
+////////////////////////검색박스 일반 분석////////////////////////
 			
 			
-			////////////////////검색 기록 삽입 및 불러오기///////////////////
-			let toHtmlHi = function(historyLists) {
-				let tmp = "<table border=1><tr><th>회원번호</th><th>년도</th><th>분기</th><th>구</th><th>길이름</th><th>검색일자</th></tr>";
+////////////////////검색 기록 삽입 및 불러오기///////////////////
+		let toHtmlHi = function(historyLists) {
+			let tmp = "<table border=1><tr><th>회원번호</th><th>년도</th><th>분기</th><th>구</th><th>길이름</th><th>검색일자</th></tr>";
 				
-				historyLists.forEach(function(historyList) {
-					tmp += '<tr><td>' + historyList.membernumber + '</td>'
-					tmp += '<td>' + historyList.marketyear + '</td>'
-					tmp += '<td>' + historyList.marketquarter + '</td>'
-					tmp += '<td>' + historyList.district + '</td>'
-					tmp += '<td>' + historyList.bd_codename + '</td>'
-					function formatDate(date) {
-						var d = new Date(date),
-						month = '' + (d.getMonth() + 1),
-						day = '' + d.getDate(),
-						year = d.getFullYear();
+			historyLists.forEach(function(historyList) {
+				tmp += '<tr><td>' + historyList.membernumber + '</td>'
+				tmp += '<td>' + historyList.marketyear + '</td>'
+				tmp += '<td>' + historyList.marketquarter + '</td>'
+				tmp += '<td>' + historyList.district + '</td>'
+				tmp += '<td>' + historyList.bd_codename + '</td>'
+				function formatDate(date) {
+					var d = new Date(date),
+					month = '' + (d.getMonth() + 1),
+					day = '' + d.getDate(),
+					year = d.getFullYear();
 
-						if (month.length < 2)
-							month = '0' + month;
-						if (day.length < 2)
-							day = '0' + day;
-						return [ year, month, day ].join('-');
-					}
-					tmp += '<td>' + formatDate(historyList.search_date) + '</td>'
-					tmp += '</tr>'
-				})
-				return tmp + "</table>";
-			}
-			
-			$.ajax({
-				type : 'POST',
-				url : '/MarketMapPage/history/SearchBoxInsertAndList',
-				dataType : 'json',
-				data : { bd_codename : bd_codename },
-				success : function(data) {
-					console.log("검색 박스 검색 기록 삽입 성공");
-					var dataList = $(data).get();
-					$('#historyList').html(toHtmlHi(dataList));
-					console.log("검색 박스 검색 기록 불러오기 성공");
-				},
-				error : function(error) {
-					console.log("검색 박스 검색 기록 삽입 실패");
+					if (month.length < 2)
+						month = '0' + month;
+					if (day.length < 2)
+						day = '0' + day;
+					return [ year, month, day ].join('-');
 				}
-			});
+				tmp += '<td>' + formatDate(historyList.search_date) + '</td>'
+				tmp += '</tr>'
+			})
+			return tmp + "</table>";
+		}
+			
+		$.ajax({
+			type : 'POST',
+			url : '/MarketMapPage/history/SearchBoxInsertAndList',
+			dataType : 'json',
+			data : { bd_codename : bd_codename },
+			success : function(data) {
+				console.log("검색 박스 검색 기록 삽입 성공");
+				var dataList = $(data).get();
+				$('#historyList').html(toHtmlHi(dataList));
+				console.log("검색 박스 검색 기록 불러오기 성공");
+			},
+			error : function(error) {
+				console.log("검색 박스 검색 기록 삽입 실패");
+			}
 		});
-		////////////////////검색 기록 삽입 및 불러오기///////////////////
+	});
+////////////////////검색 기록 삽입 및 불러오기///////////////////
 		
 		
-		$('.modalOpenBtn').click(function() {
-			$('.modalContainer').addClass('active');
-		});
+	$('.modalOpenBtn').click(function() {
+		$('.modalContainer').addClass('active');
+	});
 
-		$('.modalCloseBtn').click(function() {
-			$('.modalContainer').removeClass('active');
-		});
+	$('.modalCloseBtn').click(function() {
+		$('.modalContainer').removeClass('active');
+	});
 		
 		
-		///////////////////////////////////////////
+///////////////////////////////////////////
 var areas = [
 			  {
 			    name: "도봉구",
